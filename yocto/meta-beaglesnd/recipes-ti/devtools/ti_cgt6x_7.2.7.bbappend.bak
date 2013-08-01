@@ -1,0 +1,1 @@
+SRC_URI = "file://${DL_DIR}/ti_cgt_c6000_${PVwithdots}_setup_linux_x86.bin;name=cgt6xbin"

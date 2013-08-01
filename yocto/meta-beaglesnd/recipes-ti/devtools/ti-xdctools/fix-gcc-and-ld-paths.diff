@@ -1,0 +1,62 @@
+--- a/packages/gnu/targets/ITarget.xs	2013-02-12 14:45:19.206447684 +0400
++++ b/packages/gnu/targets/ITarget.xs	2013-02-12 14:48:24.414439535 +0400
+@@ -286,28 +286,11 @@
+ 
+     function askLd(target)
+     {
+-        var ldCmd = target.rootDir + "/" + target.GCCTARG + "-ld";
+-        /* If the ld executable cannot be found, and the prefix is not used,
+-         * it's probably a misspelled directory path.
+-         */
+-        if (prefix == "") {
+-            var file = new java.io.File(ldCmd);
+-            if (!file.exists()
+-                && !(new java.io.File(ldCmd + ".exe").exists())) {
+-                var ldCmd2 = target.rootDir + "/bin/ld";
+-                file = new java.io.File(ldCmd2);
+-                if (!file.exists()
+-                    && !(new java.io.File(ldCmd2 + ".exe").exists())) {
+-                    throw new Error("'" + ldCmd + "' or '" + ldCmd2 + "' "
+-                        + "cannot be found. Ensure that rootDir for the "
+-                        + target.name + " target is set correctly in "
+-                        + java.lang.System.getenv("XDCBUILDCFG"));
+-                }
+-                else {
+-                    ldCmd = ldCmd2;
+-                }
+-            }
+-        }
++        var ldCmd = target.GCCTARG + "-ld";
++
++        if (target.rootDir != "")
++            ldCmd = target.rootDir + "/" + ldCmd;
++
+         var cmd = prefix + ldCmd + " -v";
+         var status = {};
+         if (xdc.exec(cmd, null, status) >= 0) {
+@@ -334,21 +317,11 @@
+ 
+     function askGcc(target, opt, filter)
+     {
+-        var gccCmd = target.rootDir + "/" + target.LONGNAME;
++        var gccCmd = target.LONGNAME;
+         
+-        /* If the gcc executable cannot be found, and the prefix is not used,
+-         * it's probably a misspelled directory path.
+-         */
+-        if (prefix == "") {
+-            var file = new java.io.File(gccCmd);
+-            if (!file.exists()
+-                && !(new java.io.File(gccCmd + ".exe").exists())) {
+-                throw new Error(gccCmd + " cannot be found. Ensure" +
+-                " that rootDir for the " + target.name + " target is set " +
+-                "correctly in " + java.lang.System.getenv("XDCBUILDCFG"));
+-            }
+-        }
+-    
++        if (target.rootDir != "")
++            gccCmd = target.rootDir + "/" + gccCmd;
++
+         var cmd = prefix + gccCmd + " " + opt;
+         var status = {};
+         
