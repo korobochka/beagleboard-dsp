@@ -1,36 +1,37 @@
 #! /bin/bash
 
-# Set this line to the location you want to place yocto
-YOCTO_HOME="/home/korobochka/yocto-new/"
-
-
-YOCTO_GIT="git://git.yoctoproject.org/poky"
-METATI_GIT="git://git.yoctoproject.org/meta-ti"
-
+source conffile
 
 SAVED_DIR=$(pwd)
 
-if [ -e "$YOCTO_HOME"/poky ];
+if [ -e "$YOCTO_RELEASE_DIR" ];
 	then
 		echo "Yocto seems to be there already, remove it for clean install:
-	rm -rf $YOCTO_HOME";
+	rm -rf $YOCTO_RELEASE_DIR";
 		exit 1;
 	fi
 
-mkdir "$YOCTO_HOME"
-cd "$YOCTO_HOME"
+mkdir "$YOCTO_HOME_DIR"
+cd "$YOCTO_HOME_DIR"
+
 git clone "$YOCTO_GIT"
-cd poky
+cd "$YOCTO_RELEASE_NAME"
+git reset --hard "$YOCTO_GIT_COMMIT"
+
 git clone "$METATI_GIT"
-cp -r "$SAVED_DIR"/yocto/* "$YOCTO_HOME"/poky/
+cd meta-ti
+git reset --hard "$METATI_GIT_COMMIT"
+cd ..
 
+cp -r "$SAVED_DIR"/yocto/* "$YOCTO_RELEASE_DIR"
 
-YOCTO_HOME_ESCAPED=$(echo "$YOCTO_HOME" | sed 's/\//\\\//g')
-sed -i "s/\/home\/korobochka\/yocto/$YOCTO_HOME_ESCAPED/g" "$YOCTO_HOME"/poky/build/conf/bblayers.conf
+# This fixes paths in config files
+YOCTO_HOME_DIR_ESCAPED=$(echo "$YOCTO_HOME_DIR" | sed 's/\//\\\//g')
+sed -i "s/\/home\/korobochka\/yocto/$YOCTO_HOME_DIR_ESCAPED/g" "$YOCTO_BUILD_DIR"/conf/bblayers.conf
 
 
 echo "To build image:
-	cd $YOCTO_HOME/poky
+	cd $YOCTO_RELEASE_DIR
 	. ./oe-init-build-env
 	bitbake image-beaglesnd
 ";
