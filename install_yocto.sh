@@ -5,11 +5,11 @@ source conffile
 SAVED_DIR=$(pwd)
 
 if [ -e "$YOCTO_RELEASE_DIR" ];
-	then
-		echo "Yocto seems to be there already, remove it for clean install:
+then
+	echo "Yocto seems to be there already, remove it for clean install:
 	rm -rf $YOCTO_RELEASE_DIR";
-		exit 1;
-	fi
+	exit 1;
+fi
 
 mkdir "$YOCTO_HOME_DIR"
 cd "$YOCTO_HOME_DIR"
