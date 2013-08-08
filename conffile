@@ -7,14 +7,24 @@ YOCTO_HOME_DIR="/home/korobochka/yocto-new"
 YOCTO_RELEASE_NAME="poky"
 YOCTO_BUILDDIR_NAME="build"
 
+TFTP_DIR="/srv/tftp"
+NFS_DIR="/srv/tftp"
 
+SDCARD_DRIVE="/dev/sdc"
+SDCARD_BOOT_DIR="/media/boot"
+SDCARD_ROOTFS_DIR="/media/rootfs"
 
+TOOLCHAIN_DIR="/home/korobochka/CodeSourcery/bin"
+TOOLCHAIN_PREFFIX="arm-none-linux-gnueabi-"
+TOOLCHAIN_ARCH="arm"
+
+BOARD_DEV="/dev/ttyUSB0"
 
 ######## Convenience variables
 
 YOCTO_RELEASE_DIR="$YOCTO_HOME_DIR/$YOCTO_RELEASE_NAME/"
 YOCTO_BUILD_DIR="$YOCTO_RELEASE_DIR$YOCTO_BUILDDIR_NAME/"
-
+YOCTO_IMAGES_DIR="$YOCTO_BUILD_DIR"tmp/deploy/images/
 
 ######## Theese are constants, don't change them if not required
 
@@ -22,3 +32,5 @@ YOCTO_GIT="git://git.yoctoproject.org/poky"
 YOCTO_GIT_COMMIT="be13994d00ebb9973306fd2045dd142a859a2a62"
 METATI_GIT="git://git.yoctoproject.org/meta-ti"
 METATI_GIT_COMMIT="3f3f05eea39d0f13bc140747984e202e9288b2fe"
+
+YOCTO_IMAGE_NAME="image-beaglesnd"

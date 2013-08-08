@@ -33,5 +33,5 @@ sed -i "s/\/home\/korobochka\/yocto/$YOCTO_HOME_DIR_ESCAPED/g" "$YOCTO_BUILD_DIR
 echo "To build image:
 	cd $YOCTO_RELEASE_DIR
 	. ./oe-init-build-env
-	bitbake image-beaglesnd
+	bitbake $YOCTO_IMAGE_NAME
 ";
