@@ -11,6 +11,11 @@ KERNEL_IMAGETYPE = "uImage"
 PREFERRED_PROVIDER_virtual/kernel = "linux-omap"
 PREFERRED_PROVIDER_virtual/bootloader = "u-boot"
 
+
+UBOOT_ARCH = "arm"
+UBOOT_MACHINE = "omap3_evm_config"
+XLOAD_MACHINE = "omap3evm_config"
+
 UBOOT_ENTRYPOINT = "0x80008000"
 UBOOT_LOADADDRESS = "0x80008000"
 
