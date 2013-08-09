@@ -3,7 +3,9 @@
 ######## Changle this values
 
 # Set this line to the location you want to place yocto
+# Note, that build uses a lot of space, make sure you have 10-20 Gb free there
 YOCTO_HOME_DIR="/home/korobochka/yocto-new"
+# Release name of Yocto: poky, poky-danny-8.0
 YOCTO_RELEASE_NAME="poky"
 YOCTO_BUILDDIR_NAME="build"
 
