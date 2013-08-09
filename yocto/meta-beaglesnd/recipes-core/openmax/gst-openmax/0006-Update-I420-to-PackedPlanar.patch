@@ -1,0 +1,52 @@
+From 924d23f8cf64f58067b9c85babff1328ff6acc20 Mon Sep 17 00:00:00 2001
+From: Felipe Contreras <felipe.contreras@nokia.com>
+Date: Wed, 25 Mar 2009 18:06:37 +0200
+Subject: [PATCH 6/7] Update I420 to PackedPlanar
+
+TI now uses PackedPlanar instead of Planar, which is how it's meant to
+be according to the spec.
+
+Signed-off-by: Felipe Contreras <felipe.contreras@nokia.com>
+
+diff --git a/omx/gstomx_base_videodec.c b/omx/gstomx_base_videodec.c
+index 4434a97..a3d1d75 100644
+--- a/omx/gstomx_base_videodec.c
++++ b/omx/gstomx_base_videodec.c
+@@ -284,7 +284,7 @@ omx_setup (GstOmxBaseFilter *omx_base)
+                     case OMX_COLOR_FormatCbYCrY:
+                         param.nBufferSize = (width * height) * 2;
+                         break;
+-                    case OMX_COLOR_FormatYUV420Planar:
++                    case OMX_COLOR_FormatYUV420PackedPlanar:
+                         param.nBufferSize = (width * height) * 3 / 2;
+                         break;
+                     default:
+diff --git a/omx/gstomx_base_videoenc.c b/omx/gstomx_base_videoenc.c
+index 3325717..d7a1f05 100644
+--- a/omx/gstomx_base_videoenc.c
++++ b/omx/gstomx_base_videoenc.c
+@@ -293,7 +293,7 @@ omx_setup (GstOmxBaseFilter *omx_base)
+                     case OMX_COLOR_FormatCbYCrY:
+                         param.nBufferSize = (width * height) * 2;
+                         break;
+-                    case OMX_COLOR_FormatYUV420Planar:
++                    case OMX_COLOR_FormatYUV420PackedPlanar:
+                         param.nBufferSize = (width * height) * 3 / 2;
+                         break;
+                     default:
+diff --git a/omx/gstomx_jpegenc.c b/omx/gstomx_jpegenc.c
+index ff2d771..c7e1d33 100644
+--- a/omx/gstomx_jpegenc.c
++++ b/omx/gstomx_jpegenc.c
+@@ -348,7 +348,7 @@ omx_setup (GstOmxBaseFilter *omx_base)
+                             param.nBufferSize = 400;
+ #endif
+                         break;
+-                    case OMX_COLOR_FormatYUV420Planar:
++                    case OMX_COLOR_FormatYUV420PackedPlanar:
+                         param.nBufferSize = (GST_ROUND_UP_16 (width) * GST_ROUND_UP_16 (height)) * 3 / 2;
+ #if 0
+                         if (param.nBufferSize >= 1600)
+-- 
+1.7.0.2
+

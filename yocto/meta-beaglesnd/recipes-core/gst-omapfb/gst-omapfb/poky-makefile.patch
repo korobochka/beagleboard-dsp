@@ -1,0 +1,13 @@
+Index: git/Makefile
+===================================================================
+--- git.orig/Makefile	2009-10-30 18:26:15.000000000 +0100
++++ git/Makefile	2009-11-02 13:30:39.000000000 +0100
+@@ -10,7 +10,7 @@
+ all: libgstomapfb.so
+ 
+ libgstomapfb.so: omapfb.o
+-libgstomapfb.so: CFLAGS := $(CFLAGS) $(GST_CFLAGS) -I$(KERNEL)/arch/arm/plat-omap/include
++libgstomapfb.so: CFLAGS := $(CFLAGS) $(GST_CFLAGS) -I$(KERNEL)/include
+ libgstomapfb.so: LIBS := $(GST_LIBS)
+ 
+ # pretty print

@@ -1,0 +1,26 @@
+Index: git/omx/gstomx_base_filter.c
+===================================================================
+--- git.orig/omx/gstomx_base_filter.c	2009-12-11 15:43:27.000000000 +0100
++++ git/omx/gstomx_base_filter.c	2009-12-11 16:06:23.000000000 +0100
+@@ -435,7 +435,7 @@
+                 else
+                 {
+                     GST_WARNING_OBJECT (self, "couldn't allocate buffer of size %d",
+-                                        omx_buffer->nFilledLen);
++                                        (int) omx_buffer->nFilledLen);
+                 }
+             }
+         }
+Index: git/omx/gstomx_base_sink.c
+===================================================================
+--- git.orig/omx/gstomx_base_sink.c	2009-12-11 15:43:27.000000000 +0100
++++ git/omx/gstomx_base_sink.c	2009-12-11 16:07:58.000000000 +0100
+@@ -161,7 +161,7 @@
+     gomx = self->gomx;
+ 
+     GST_LOG_OBJECT (self, "begin");
+-    GST_LOG_OBJECT (self, "gst_buffer: size=%lu", GST_BUFFER_SIZE (buf));
++    GST_LOG_OBJECT (self, "gst_buffer: size=%u", GST_BUFFER_SIZE (buf));
+ 
+     GST_LOG_OBJECT (self, "state: %d", gomx->omx_state);
+ 

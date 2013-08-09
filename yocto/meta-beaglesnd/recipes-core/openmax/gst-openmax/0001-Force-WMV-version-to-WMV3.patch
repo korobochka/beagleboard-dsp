@@ -1,0 +1,22 @@
+From 2402d21ac04747395c7131d99062d669042c2059 Mon Sep 17 00:00:00 2001
+From: Felipe Contreras <felipe.contreras@nokia.com>
+Date: Tue, 3 Feb 2009 17:42:12 +0200
+Subject: [PATCH 1/7] Force WMV version to WMV3
+
+Signed-off-by: Felipe Contreras <felipe.contreras@nokia.com>
+
+diff --git a/omx/gstomx_wmvdec.c b/omx/gstomx_wmvdec.c
+index eb05a40..62e6bf2 100644
+--- a/omx/gstomx_wmvdec.c
++++ b/omx/gstomx_wmvdec.c
+@@ -36,6 +36,7 @@ generate_sink_template (void)
+                                "width", GST_TYPE_INT_RANGE, 16, 4096,
+                                "height", GST_TYPE_INT_RANGE, 16, 4096,
+                                "framerate", GST_TYPE_FRACTION_RANGE, 0, 1, G_MAXINT, 1,
++                               "wmvversion", G_TYPE_INT, 3,
+                                NULL);
+ 
+     gst_caps_append_structure (caps, struc);
+-- 
+1.7.0.2
+

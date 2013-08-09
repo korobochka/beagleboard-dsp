@@ -1,0 +1,42 @@
+From 2e8beab0fc958c24ed2777731847a58099898a53 Mon Sep 17 00:00:00 2001
+From: Felipe Contreras <felipe.contreras@nokia.com>
+Date: Fri, 13 Feb 2009 16:51:58 +0200
+Subject: [PATCH 4/7] h264enc: set recommended output buffer size
+
+Signed-off-by: Felipe Contreras <felipe.contreras@nokia.com>
+
+diff --git a/omx/gstomx_h264enc.c b/omx/gstomx_h264enc.c
+index 1e2947a..fefd168 100644
+--- a/omx/gstomx_h264enc.c
++++ b/omx/gstomx_h264enc.c
+@@ -79,6 +79,27 @@ omx_setup (GstOmxBaseFilter *omx_base)
+ 
+     GST_INFO_OBJECT (omx_base, "begin");
+ 
++    {
++        OMX_PARAM_PORTDEFINITIONTYPE param;
++
++        memset (&param, 0, sizeof (param));
++        param.nSize = sizeof (OMX_PARAM_PORTDEFINITIONTYPE);
++        param.nVersion.s.nVersionMajor = 1;
++        param.nVersion.s.nVersionMinor = 1;
++
++        /* some workarounds required for TI components. */
++        /* the component should do this instead */
++        {
++            param.nPortIndex = 1;
++            OMX_GetParameter (gomx->omx_handle, OMX_IndexParamPortDefinition, &param);
++
++            /* this is against the standard; nBufferSize is read-only. */
++            param.nBufferSize = 300000;
++
++            OMX_SetParameter (gomx->omx_handle, OMX_IndexParamPortDefinition, &param);
++        }
++    }
++
+     GST_INFO_OBJECT (omx_base, "end");
+ }
+ 
+-- 
+1.7.0.2
+

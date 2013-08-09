@@ -1,0 +1,13 @@
+Index: tiopenmax-0.3.5/system/src/openmax_il/resource_manager/src/Makefile
+===================================================================
+--- tiopenmax-0.3.5.orig/system/src/openmax_il/resource_manager/src/Makefile	2008-07-15 22:15:47.000000000 +0200
++++ tiopenmax-0.3.5/system/src/openmax_il/resource_manager/src/Makefile	2009-12-10 16:23:20.000000000 +0100
+@@ -26,7 +26,7 @@
+ 	cp -f $(COMPONENT_SYS) $(COMPONENT_TARGET)
+ 
+ $(COMPONENT_SYS): $(OBJ)
+-	$(CROSS)gcc $(CFLAGS) -o $(COMPONENT_SYS) $(OBJ) -L$(BRIDGELIBDIR) -lbridge $(LOMXPERFLIB) -lRAM
++	$(CROSS)gcc $(CFLAGS) -o $(COMPONENT_SYS) $(OBJ) -L$(BRIDGELIBDIR) -lbridge $(LOMXPERFLIB) -L$(OMXLIBDIR) -lRAM
+ 
+ $(SRC): $(HSRC)
+ 

@@ -1,0 +1,99 @@
+Index: tiopenmax-0.3.5/video/src/openmax_il/video_decode/test/VidDecTest.c
+===================================================================
+--- tiopenmax-0.3.5.orig/video/src/openmax_il/video_decode/test/VidDecTest.c	2008-07-15 22:55:27.000000000 +0200
++++ tiopenmax-0.3.5/video/src/openmax_il/video_decode/test/VidDecTest.c	2009-12-10 17:09:27.000000000 +0100
+@@ -30,7 +30,6 @@
+ #include "MPEG4DecFunctions.h"
+ #include "MPEG2DecFunctions.h"
+ #include "H264DecFunctions.h"
+-#include "WMV9DecFunctions.h"
+ #ifdef KHRONOS_1_1
+ #include "OMX_ComponentRegistry.h"
+ /*#define TEST_ROLES*/
+@@ -299,7 +298,7 @@
+             H264VIDDEC_Fill_Data(pAppData,pAppData->pInBuff[0]);
+         }
+         else if (pAppData->eCompressionFormat == OMX_VIDEO_CodingWMV) {
+-            WMVVIDDEC_Fill_Data(pAppData,pAppData->pInBuff[0]);
++            /* WMVVIDDEC_Fill_Data(pAppData,pAppData->pInBuff[0]); */
+         }
+         ++pAppData->nCurrentFrameIn;
+         TickCounPropatation( pAppData, pAppData->pInBuff[0], pAppData->nCurrentFrameIn);
+@@ -324,7 +323,7 @@
+                     H264VIDDEC_Fill_Data(pAppData,pAppData->pInBuff[nCount]);
+                 }
+                 else if (pAppData->eCompressionFormat == OMX_VIDEO_CodingWMV) {
+-                    WMVVIDDEC_Fill_Data(pAppData,pAppData->pInBuff[nCount]);
++                    /* WMVVIDDEC_Fill_Data(pAppData,pAppData->pInBuff[nCount]); */
+                 }
+                 ++pAppData->nCurrentFrameIn;
+                 TickCounPropatation( pAppData, pAppData->pInBuff[nCount], pAppData->nCurrentFrameIn);
+@@ -899,7 +898,7 @@
+         eError = H264VIDDEC_AllocateResources(pAppData);
+ 	}
+ 	else if (pAppData->eCompressionFormat == OMX_VIDEO_CodingWMV) {
+-        eError = WMVVIDDEC_AllocateResources(pAppData);
++        /* eError = WMVVIDDEC_AllocateResources(pAppData); */
+ 	}
+     if (eError != OMX_ErrorNone) {
+         ERR_PRINT("Error allocating resources!\n");
+@@ -1533,7 +1532,7 @@
+             eError = H264VIDDEC_SetParamPortDefinition(pAppData);
+     	}
+     	else if (pAppData->eCompressionFormat == OMX_VIDEO_CodingWMV) {
+-            eError = WMVVIDDEC_SetParamPortDefinition(pAppData);
++            /* eError = WMVVIDDEC_SetParamPortDefinition(pAppData); */
+     	}
+         if (eError != OMX_ErrorNone) {
+             ERR_PRINT("Error initializing the portdefs %X\n", eError);
+@@ -1628,7 +1627,7 @@
+ 			H264VIDDEC_Fill_Data(pAppData,pAppData->pInBuff[0]);
+ 		}
+ 		else if (pAppData->eCompressionFormat == OMX_VIDEO_CodingWMV) {
+-			WMVVIDDEC_Fill_Data(pAppData,pAppData->pInBuff[0]);
++			/* WMVVIDDEC_Fill_Data(pAppData,pAppData->pInBuff[0]); */
+ 		}
+ 		++pAppData->nCurrentFrameIn;
+ 		TickCounPropatation( pAppData, pAppData->pInBuff[0], pAppData->nCurrentFrameIn);
+@@ -1672,7 +1671,7 @@
+                         H264VIDDEC_Fill_Data(pAppData,pAppData->pInBuff[i]);
+         	        }
+         	        else if (pAppData->eCompressionFormat == OMX_VIDEO_CodingWMV) {
+-                        WMVVIDDEC_Fill_Data(pAppData,pAppData->pInBuff[i]);
++                        /* WMVVIDDEC_Fill_Data(pAppData,pAppData->pInBuff[i]); */
+         	        }
+                     /*APP_DPRINT(" Input Buff FRAME %d %x %x\n", pAppData->nCurrentFrameIn,
+                          pAppData->pInBuff[i], pAppData->pInBuff[i]->nFlags);*/
+@@ -1758,7 +1757,7 @@
+                         H264VIDDEC_Fill_Data(pAppData,pBuffer);
+     	            }
+     	            else if (pAppData->eCompressionFormat == OMX_VIDEO_CodingWMV) {
+-                        WMVVIDDEC_Fill_Data(pAppData,pBuffer);
++                        /* WMVVIDDEC_Fill_Data(pAppData,pBuffer); */
+     	            }
+     	            if(pBuffer->nFilledLen > pBuffer->nAllocLen) {
+     	               ERR_PRINT("Buffer size overflow alloc %x/fill %x\n", 
+@@ -2134,7 +2133,7 @@
+         H264VIDDEC_FreeResources(pAppData);
+ 	}
+ 	else if (pAppData->eCompressionFormat == OMX_VIDEO_CodingWMV) {
+-        WMVVIDDEC_FreeResources(pAppData);
++        /* WMVVIDDEC_FreeResources(pAppData); */
+ 	}
+ 	if(eError != OMX_ErrorNone){
+ 	    pAppData->eAppError = eError;
+Index: tiopenmax-0.3.5/video/src/openmax_il/video_decode/test/Makefile
+===================================================================
+--- tiopenmax-0.3.5.orig/video/src/openmax_il/video_decode/test/Makefile	2009-12-10 16:54:45.000000000 +0100
++++ tiopenmax-0.3.5/video/src/openmax_il/video_decode/test/Makefile	2009-12-10 17:10:10.000000000 +0100
+@@ -8,8 +8,8 @@
+     VidDecTest.c \
+     MPEG4DecFunctions.c \
+     MPEG2DecFunctions.c \
+-    H264DecFunctions.c \
+-    WMV9DecFunctions.c
++    H264DecFunctions.c
++ 
+ EXTRA=\
+ 	VidDecTest.c 
+ 

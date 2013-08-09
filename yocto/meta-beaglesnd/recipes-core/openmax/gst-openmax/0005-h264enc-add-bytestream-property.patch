@@ -1,0 +1,139 @@
+From 9605a8eef371430d31c93664529c1c735840a0f1 Mon Sep 17 00:00:00 2001
+From: Felipe Contreras <felipe.contreras@gmail.com>
+Date: Mon, 15 Dec 2008 18:44:35 +0200
+Subject: [PATCH 5/7] h264enc: add bytestream property
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Felipe Contreras <felipe.contreras@nokia.com>
+Signed-off-by: Victor Manuel Jáquez Leal <vjaquez@igalia.com>
+
+diff --git a/omx/gstomx_h264enc.c b/omx/gstomx_h264enc.c
+index fefd168..e120d5d 100644
+--- a/omx/gstomx_h264enc.c
++++ b/omx/gstomx_h264enc.c
+@@ -24,6 +24,14 @@
+ 
+ GSTOMX_BOILERPLATE (GstOmxH264Enc, gst_omx_h264enc, GstOmxBaseVideoEnc, GST_OMX_BASE_VIDEOENC_TYPE);
+ 
++enum
++{
++    ARG_0,
++    ARG_BYTESTREAM,
++};
++
++#define DEFAULT_BYTESTREAM FALSE
++
+ static GstCaps *
+ generate_src_template (void)
+ {
+@@ -63,9 +71,68 @@ type_base_init (gpointer g_class)
+ }
+ 
+ static void
++set_property (GObject *obj,
++              guint prop_id,
++              const GValue *value,
++              GParamSpec *pspec)
++{
++    GstOmxBaseFilter *omx_base;
++    GstOmxH264Enc *self;
++    GOmxCore *gomx;
++
++    omx_base = GST_OMX_BASE_FILTER (obj);
++    self = GST_OMX_H264ENC (obj);
++    gomx = (GOmxCore*) omx_base->gomx;
++
++    switch (prop_id)
++    {
++        case ARG_BYTESTREAM:
++            self->bytestream = g_value_get_boolean (value);
++            break;
++        default:
++            G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, prop_id, pspec);
++            break;
++    }
++}
++
++static void
++get_property (GObject *obj,
++              guint prop_id,
++              GValue *value,
++              GParamSpec *pspec)
++{
++    GstOmxH264Enc *self;
++
++    self = GST_OMX_H264ENC (obj);
++
++    switch (prop_id)
++    {
++        case ARG_BYTESTREAM:
++            g_value_set_boolean (value, self->bytestream);
++            break;
++        default:
++            G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, prop_id, pspec);
++            break;
++    }
++}
++
++static void
+ type_class_init (gpointer g_class,
+                  gpointer class_data)
+ {
++    GObjectClass *gobject_class;
++
++    gobject_class = G_OBJECT_CLASS (g_class);
++
++    /* Properties stuff */
++    {
++        gobject_class->set_property = set_property;
++        gobject_class->get_property = get_property;
++
++        g_object_class_install_property (gobject_class, ARG_BYTESTREAM,
++                                         g_param_spec_boolean ("bytestream", "BYTESTREAM", "bytestream",
++                                                               DEFAULT_BYTESTREAM, G_PARAM_READWRITE));
++    }
+ }
+ 
+ static void
+@@ -100,6 +167,24 @@ omx_setup (GstOmxBaseFilter *omx_base)
+         }
+     }
+ 
++    {
++        OMX_INDEXTYPE index;
++
++        if (OMX_GetExtensionIndex (gomx->omx_handle, "OMX.TI.VideoEncode.Config.NALFormat", &index) == OMX_ErrorNone)
++        {
++            OMX_U32 nal_format;
++            GstOmxH264Enc *h264enc;
++
++            h264enc = GST_OMX_H264ENC (omx_base);
++            nal_format = h264enc->bytestream ? 0 : 1;
++            GST_DEBUG_OBJECT (omx_base, "setting 'OMX.TI.VideoEncode.Config.NALFormat' to %lu", nal_format);
++
++            OMX_SetParameter (gomx->omx_handle, index, &nal_format);
++        }
++        else
++            GST_WARNING_OBJECT (omx_base, "'OMX.TI.VideoEncode.Config.NALFormat' unsupported");
++    }
++
+     GST_INFO_OBJECT (omx_base, "end");
+ }
+ 
+diff --git a/omx/gstomx_h264enc.h b/omx/gstomx_h264enc.h
+index 4cf7100..9066092 100644
+--- a/omx/gstomx_h264enc.h
++++ b/omx/gstomx_h264enc.h
+@@ -37,6 +37,7 @@ typedef struct GstOmxH264EncClass GstOmxH264EncClass;
+ struct GstOmxH264Enc
+ {
+     GstOmxBaseVideoEnc omx_base;
++    gboolean bytestream;
+ };
+ 
+ struct GstOmxH264EncClass
+-- 
+1.7.0.2
+

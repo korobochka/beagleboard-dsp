@@ -1,0 +1,103 @@
+From 69f66df484c6430274da7f8ef646edcaca28d9e7 Mon Sep 17 00:00:00 2001
+From: Felipe Contreras <felipe.contreras@gmail.com>
+Date: Wed, 28 Jan 2009 16:30:22 +0200
+Subject: [PATCH 7/7] Add custom config for TI WMV decoder
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: René Stadler <rene.stadler@nokia.com>
+Signed-off-by: Felipe Contreras <felipe.contreras@nokia.com>
+Signed-off-by: Víctor Manuel Jáquez Leal <vjaquez@igalia.com>
+
+diff --git a/omx/gstomx_base_videodec.c b/omx/gstomx_base_videodec.c
+index a3d1d75..1d8f7b9 100644
+--- a/omx/gstomx_base_videodec.c
++++ b/omx/gstomx_base_videodec.c
+@@ -217,6 +217,9 @@ sink_setcaps (GstPad *pad,
+         OMX_SetParameter (gomx->omx_handle, OMX_IndexParamPortDefinition, &param);
+     }
+ 
++    if (self->sink_setcaps)
++        self->sink_setcaps (pad, caps);
++
+     return gst_pad_set_caps (pad, caps);
+ }
+ 
+diff --git a/omx/gstomx_base_videodec.h b/omx/gstomx_base_videodec.h
+index 436d33f..714c0e6 100644
+--- a/omx/gstomx_base_videodec.h
++++ b/omx/gstomx_base_videodec.h
+@@ -42,6 +42,7 @@ struct GstOmxBaseVideoDec
+     OMX_VIDEO_CODINGTYPE compression_format;
+     gint framerate_num;
+     gint framerate_denom;
++    GstPadSetCapsFunction sink_setcaps;
+ };
+ 
+ struct GstOmxBaseVideoDecClass
+diff --git a/omx/gstomx_wmvdec.c b/omx/gstomx_wmvdec.c
+index 62e6bf2..458058d 100644
+--- a/omx/gstomx_wmvdec.c
++++ b/omx/gstomx_wmvdec.c
+@@ -44,6 +44,50 @@ generate_sink_template (void)
+     return caps;
+ }
+ 
++static gboolean
++sink_setcaps (GstPad *pad,
++              GstCaps *caps)
++{
++    GstStructure *structure;
++    GstOmxBaseVideoDec *omx_base;
++    GstOmxBaseFilter *omx_base_filter;
++    GOmxCore *gomx;
++    gboolean is_vc1 = FALSE;
++
++    omx_base = GST_OMX_BASE_VIDEODEC (GST_PAD_PARENT (pad));
++    omx_base_filter = GST_OMX_BASE_FILTER (omx_base);
++
++    gomx = (GOmxCore *) omx_base_filter->gomx;
++
++    structure = gst_caps_get_structure (caps, 0);
++
++    {
++        guint32 fourcc;
++
++        /** @todo which one should it be? Is this a demuxer bug? */
++        if (gst_structure_get_fourcc (structure, "fourcc", &fourcc) ||
++            gst_structure_get_fourcc (structure, "format", &fourcc))
++        {
++            if (fourcc == GST_MAKE_FOURCC ('W', 'V', 'C', '1'))
++                is_vc1 = TRUE;
++        }
++    }
++
++    /* This is specific for TI. */
++    {
++        OMX_INDEXTYPE index;
++        OMX_U32 file_type = is_vc1 ? 0 : 1; /* 0 = wvc1, 1 = wmv3 */
++        OMX_GetExtensionIndex (gomx->omx_handle, "OMX.TI.VideoDecode.Param.WMVFileType", &index);
++        OMX_SetParameter (gomx->omx_handle, index, &file_type);
++
++        GST_DEBUG_OBJECT (omx_base,
++                          "OMX_SetParameter OMX.TI.VideoDecode.Param.WMVFileType %lu",
++                          file_type);
++    }
++
++    return TRUE;
++}
++
+ static void
+ type_base_init (gpointer g_class)
+ {
+@@ -83,4 +127,6 @@ type_instance_init (GTypeInstance *instance,
+     omx_base = GST_OMX_BASE_VIDEODEC (instance);
+ 
+     omx_base->compression_format = OMX_VIDEO_CodingWMV;
++
++    omx_base->sink_setcaps = sink_setcaps;
+ }
+-- 
+1.7.0.2
+

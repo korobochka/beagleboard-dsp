@@ -1,0 +1,13 @@
+Index: git/omapfb.c
+===================================================================
+--- git.orig/omapfb.c	2009-10-30 18:26:15.000000000 +0100
++++ git/omapfb.c	2009-11-02 16:38:47.000000000 +0100
+@@ -345,7 +345,7 @@
+ {
+     GST_DEBUG_CATEGORY_INIT (omapfb_debug, "omapfb", 0, "omapfb");
+ 
+-    if (!gst_element_register (plugin, "omapfbsink", GST_RANK_NONE, GST_OMAPFB_SINK_TYPE))
++    if (!gst_element_register (plugin, "omapfbsink", GST_RANK_PRIMARY, GST_OMAPFB_SINK_TYPE))
+         return FALSE;
+ 
+     return TRUE;
