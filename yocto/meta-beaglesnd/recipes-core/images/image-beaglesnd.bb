@@ -8,6 +8,7 @@ IMAGE_INSTALL += "\
     gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad \
     gst-ffmpeg gst-fluendo-mp3 gst-fluendo-mpegdemux gst-openmax \
     alsa-lib alsa-tools alsa-utils \
+    dsp-files dsp-tools \
     "
 
 inherit core-image
