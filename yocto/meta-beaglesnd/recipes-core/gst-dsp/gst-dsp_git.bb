@@ -5,15 +5,16 @@ AUTHOR = "Felipe Contreras <felipe.contreras@nokia.com>"
 #LICENSE = "LGPL"
 LICENSE = "CLOSED"
 DEPENDS = "gstreamer"
-RDEPENDS_${PN} = "kernel-module-bridgedriver"
+#RDEPENDS_${PN} = "kernel-module-bridgedriver"
 
-PR = "r2"
-PV = "0.7.1+gitr${SRCREV}"
+PR = "r3"
+PV = "0.10.2+gitr${SRCREV}"
 
 SRC_URI = "git://github.com/felipec/gst-dsp.git;protocol=git;branch=master"
 
 #SRCREV = "1634ad3"
-SRCREV = "1634ad307c7c3f93536829f59442fd07c582303f"
+#SRCREV = "1634ad307c7c3f93536829f59442fd07c582303f"
+SRCREV = "f2e7b9470918c6b764ee849134660985b8345c3d"
 S = "${WORKDIR}/git"
 
 PACKAGES = "${PN} ${PN}-dbg"
