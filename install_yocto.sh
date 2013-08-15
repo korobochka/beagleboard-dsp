@@ -23,7 +23,8 @@ cd meta-ti
 git reset --hard "$METATI_GIT_COMMIT"
 cd ..
 
-cp -r "$SAVED_DIR"/yocto/* "$YOCTO_RELEASE_DIR"
+#cp -r "$SAVED_DIR"/yocto/* "$YOCTO_RELEASE_DIR"
+ln -s "$SAVED_DIR"/yocto/meta-beaglesnd "$YOCTO_RELEASE_DIR"/meta-beaglesnd
 
 # This fixes paths in config files
 YOCTO_HOME_DIR_ESCAPED=$(echo "$YOCTO_HOME_DIR" | sed 's/\//\\\//g')

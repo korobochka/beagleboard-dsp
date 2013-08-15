@@ -14,7 +14,7 @@ IMAGE_INSTALL += "\
     gst-plugins-bad-meta \
     gst-plugins-ugly \
     gst-plugins-ugly-meta \
-    gst-ffmpeg gst-fluendo-mp3 gst-fluendo-mpegdemux gst-openmax \
+    gst-ffmpeg gst-fluendo-mp3 gst-fluendo-mpegdemux \
     alsa-lib alsa-tools alsa-utils \
     dsp-files dsp-tools \
     gst-dsp \
