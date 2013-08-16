@@ -1,0 +1,13 @@
+diff --git a/source/mpu_api/make/build.mk b/source/mpu_api/make/build.mk
+index e04d8a0..a83e4ed 100755
+--- a/source/mpu_api/make/build.mk
++++ b/source/mpu_api/make/build.mk
+@@ -150,7 +150,7 @@ LIBFILE := $(addprefix -l, $(ST_LIBS) $(SH_LIBS)) $(LIB_OBJS)
+ 
+ ifeq ($(TARGETTYPE),SH_LIB)
+ CFLAGS += -fpic
+-TARGETARGS := $(SH_LIB_ARGS) -nostartfiles -nodefaultlibs -nostdlib -shared -Wl
++TARGETARGS := $(SH_LIB_ARGS) -nostartfiles -nodefaultlibs -nostdlib -shared
+ ifneq ($(SH_SONAME),)
+ TARGETARGS += -Wl,-soname,$(SH_SONAME)
+ endif

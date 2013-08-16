@@ -18,6 +18,7 @@ IMAGE_INSTALL += "\
     alsa-lib alsa-tools alsa-utils \
     dsp-files dsp-tools \
     gst-dsp \
+    libbridge \
     "
 
 inherit core-image

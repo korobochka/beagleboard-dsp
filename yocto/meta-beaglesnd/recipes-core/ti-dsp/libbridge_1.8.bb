@@ -3,17 +3,26 @@ PRIORITY = "optional"
 DESCRIPTION = "Texas Instruments MPU/DSP Bridge libraries."
 LICENSE = "CLOSED"
 PR = "r0"
-RDEPENDS_${PN} = "kernel-module-dspbridge kernel-module-bridgedriver"
+#RDEPENDS_${PN} = "kernel-module-dspbridge kernel-module-bridgedriver"
 
-PACKAGES = "${PN} ${PN}-dbg ${PN}-dev"
-FILES_${PN} = "${libdir}/lib*.so.* ${libdir}/lib*.so"
-FILES_${PN}-dev = "${includedir} ${libdir}/lib*.a"
+#PACKAGES = "${PN} ${PN}-dbg ${PN}-dev"
+#FILES_${PN} = "${libdir}/lib*.so.* ${libdir}/lib*.so"
+#FILES_${PN}-dev = "${includedir} ${libdir}/lib*.a"
 
 TAG="v${PV}"
-SRC_URI = "git://dev.omapzoom.org/pub/scm/tidspbridge/userspace-dspbridge.git;protocol=git;tag=${TAG}"
+SRC_URI = "git://dev.omapzoom.org/pub/scm/tidspbridge/userspace-dspbridge.git;protocol=git;tag=${TAG} \
+		   file://fixbuild.patch"
 
 S = "${WORKDIR}/git"
 TARGET_CC_ARCH += "${LDFLAGS}"
+
+addtask customprep after do_patch before do_compile
+do_customprep() {
+	rm -rf ${S}/source/target/
+	mkdir -p ${S}/source/target/lib
+	cp -x ${TMPDIR}/sysroots/${MACHINE}/lib/libpthread* ${S}/source/target/lib/
+	ln -s ${S}/source/target/lib/libpthread.so.0 ${S}/source/target/lib/libpthread.so
+}
 
 do_compile() {
 	unset CFLAGS
