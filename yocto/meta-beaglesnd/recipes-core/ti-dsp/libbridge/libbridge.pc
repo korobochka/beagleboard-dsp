@@ -5,6 +5,6 @@ includedir=/usr/include
 
 Name: libbridge
 Description: Texas Instruments' DSP/BIOS bridge
-Version: 23.3.3
+Version: 1.8
 Libs: -L${libdir} -lbridge
-Cflags: -I${includedir}/libbridge
+Cflags: -I${includedir}/dspbridge
