@@ -1,0 +1,31 @@
+diff --git a/src/Makefile b/src/Makefile
+index afeedea..2dc26d2 100644
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -27,7 +27,7 @@ targets += $(rmp)
+ 
+ lcml := libLCML.so
+ $(lcml): LCML_DspCodec.o
+-$(lcml): CFLAGS := $(SO_CLFAGS) $(STRICT_CFLAGS) $(OMX_CFLAGS) $(DBAPI_CFLAGS) -I./
++$(lcml): CFLAGS := $(SO_CFLAGS) $(STRICT_CFLAGS) $(OMX_CFLAGS) $(DBAPI_CFLAGS) -I./
+ $(lcml): LDFLAGS += -Wl,-soname=$@
+ $(lcml): LIBS := -lpthread $(DBAPI_LIBS)
+ 
+@@ -59,14 +59,14 @@ bins += $(pm)
+ rm := OMXResourceManager
+ $(rm): ResourceManager.o libRAM.so
+ $(rm): CFLAGS := $(CFLAGS) $(OMX_CFLAGS) $(DBAPI_CFLAGS) -I./
+-$(rm): LIBS := -lqos $(DBAPI_LIBS)
++$(rm): LIBS := -lqos -lpthread $(DBAPI_LIBS)
+ 
+ bins += $(rm)
+ 
+ am := OMXAudioManager
+ $(am): AudioManager.o
+ $(am): CFLAGS := $(CFLAGS) $(OMX_CFLAGS) $(DBAPI_CFLAGS) -I./
+-$(am): LIBS := $(DBAPI_LIBS)
++$(am): LIBS := -lpthread $(DBAPI_LIBS)
+ 
+ bins += $(am)
+ 
+
