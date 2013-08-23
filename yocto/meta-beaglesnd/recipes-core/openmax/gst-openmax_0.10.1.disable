@@ -1,0 +1,22 @@
+DESCRIPTION = "GstOpenMAX is a GStreamer plug-in that allows communication with OpenMAX IL components"
+LICENSE = "CLOSED"
+DEPENDS = "gstreamer"
+
+TAG = "v${PV}"
+SRC_URI = "git://github.com/felipec/gst-openmax.git;protocol=git;tag=${TAG} \
+	"
+
+S = "${WORKDIR}/git"
+EXTRA_OECONF_append = "--enable-experimental "
+
+inherit autotools
+
+do_unpack2() {
+	echo "${TAG}" > ${S}/.version
+}
+
+do_install() {
+	autotools_stage_all
+}
+
+addtask unpack2 after do_unpack before do_patch

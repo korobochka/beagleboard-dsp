@@ -23,8 +23,4 @@ do_install() {
 	autotools_stage_all
 }
 
-FILES_${PN} += "${libdir}/gstreamer-0.10/*.so"
-FILES_${PN}-dbg += "${libdir}/gstreamer-0.10/.debug"
-FILES_${PN}-dev += "${libdir}/gstreamer-0.10/*.*a"
-
 addtask unpack2 after do_unpack before do_patch

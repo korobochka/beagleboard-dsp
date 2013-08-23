@@ -20,6 +20,7 @@ IMAGE_INSTALL += "\
     gst-dsp \
     libbridge \
     libomxil-ti \
+    gst-openmax \
     "
 
 inherit core-image
