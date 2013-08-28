@@ -1,6 +1,6 @@
 DESCRIPTION = "A console-only image for beagleboard."
 
-IMAGE_FEATURES += "splash tools-testapps"
+IMAGE_FEATURES += " splash tools-testapps ssh-server-dropbear"
 
 IMAGE_INSTALL += "\
     packagegroup-core-boot \
