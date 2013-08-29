@@ -19,6 +19,7 @@ IMAGE_INSTALL += "\
     dsp-files dsp-tools \
     gst-dsp \
     libbridge \
+    libomxil \
     libomxil-ti \
     gst-openmax \
     "
