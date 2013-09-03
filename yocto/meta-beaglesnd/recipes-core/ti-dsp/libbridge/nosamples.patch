@@ -1,0 +1,31 @@
+diff --git a/Makefile b/Makefile
+index bb555bd..38979e3 100644
+--- a/Makefile
++++ b/Makefile
+@@ -8,9 +8,11 @@ export CFLAGS
+ LDFLAGS += -Wl,--no-undefined
+ export LDFLAGS
+ 
+-SUBDIRS = libbridge libqos samples
++#SUBDIRS = libbridge libqos samples
++SUBDIRS = libbridge libqos
+ 
+-all: samples
++#all: samples
++all: libqos/libqos.so libbridge/libbridge.so
+ 
+ libbridge/libbridge.so:
+ 	$(MAKE) -C libbridge
+@@ -18,9 +20,9 @@ libbridge/libbridge.so:
+ libqos/libqos.so: libbridge/libbridge.so
+ 	$(MAKE) -C libqos
+ 
+-.PHONY: samples
+-samples: libqos/libqos.so libbridge/libbridge.so
+-	$(MAKE) -C samples
++#.PHONY: samples
++#samples: libqos/libqos.so libbridge/libbridge.so
++#	$(MAKE) -C samples
+ 
+ .PHONY: clean
+ clean:
