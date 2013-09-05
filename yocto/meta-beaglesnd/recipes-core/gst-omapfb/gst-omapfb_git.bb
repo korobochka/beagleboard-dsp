@@ -1,10 +1,12 @@
 DESCRIPTION = "GStreamer plug-in for omapfb rendering."
-LICENSE = "GPL"
+#LICENSE = "GPL"
+LICENSE = "CLOSED"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 DEPENDS = "gst-plugins-base"
 
 SRC_URI = "git://github.com/felipec/${PN}.git;protocol=git"
-SRCREV = "41c0ef0d67dc9b718ab3a2aeecccc53b9ba8d783"
+#SRCREV = "41c0ef0d67dc9b718ab3a2aeecccc53b9ba8d783"
+SRCREV = "677473bcc5b67ad7377e384f99357ee2f205bb28"
 PV = "1.0+${PR}+gitr${SRCREV}"
 
 S = "${WORKDIR}/git"

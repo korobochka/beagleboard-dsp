@@ -11,6 +11,10 @@ buddy=none
 loadaddr=0x80200000
 bootfile=uImage
 root=/dev/nfs rw
+defaultdisplay=dvi
+dvimode=640x480MR-16@60
+vram=12M
+optargs=vram=${vram} video=omapfb:vram:2M,vram:4M omapfb.mode=dvi:${dvimode} omapdss.def_disp=${defaultdisplay}
 nfsroot=192.168.0.2:/srv/tftp rw nolock rsize=4096 wsize=4096 rootdelay=1
 nfsargs=setenv bootargs console=${console} ${optargs} mpurate=${mpurate} buddy=${buddy} camera=${camera} noinitrd ip=${ip} root=${root} nfsroot=${nfsroot}
 loadkernel=dcache off; icache off;run nfsargs;ip=dhcp; tftpboot ${loadaddr} ${bootfile}

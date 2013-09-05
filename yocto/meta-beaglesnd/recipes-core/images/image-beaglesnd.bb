@@ -22,6 +22,7 @@ IMAGE_INSTALL += "\
     libomxil \
     libomxil-ti \
     gst-openmax \
+    gst-omapfb \
     "
 
 inherit core-image
