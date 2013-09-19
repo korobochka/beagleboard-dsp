@@ -11,7 +11,7 @@ then
 	exit 1;
 fi
 
-mkdir "$YOCTO_HOME_DIR"
+mkdir -p "$YOCTO_HOME_DIR"
 cd "$YOCTO_HOME_DIR"
 
 git clone "$YOCTO_GIT"
@@ -25,6 +25,9 @@ cd ..
 
 #cp -r "$SAVED_DIR"/yocto/* "$YOCTO_RELEASE_DIR"
 ln -s "$SAVED_DIR"/yocto/meta-beaglesnd "$YOCTO_RELEASE_DIR"/meta-beaglesnd
+
+mkdir -p "$YOCTO_BUILD_DIR"
+cp -r "$SAVED_DIR"/yocto/build/conf/ "$YOCTO_BUILD_DIR"
 
 # This fixes paths in config files
 YOCTO_HOME_DIR_ESCAPED=$(echo "$YOCTO_HOME_DIR" | sed 's/\//\\\//g')
