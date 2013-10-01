@@ -1,0 +1,47 @@
+diff --git a/gpp/dsp_ping.c b/gpp/dsp_ping.c
+index a5ffb3c..d904418 100644
+--- a/gpp/dsp_ping.c
++++ b/gpp/dsp_ping.c
+@@ -125,6 +125,7 @@ run_task(dsp_node_t *node)
+ int
+ main(int argc, char **argv)
+ {
++	printf("DSP PING starts now\n");
+ 	dsp_node_t *node;
+ 	int ret = 0;
+ 
+@@ -134,6 +135,7 @@ main(int argc, char **argv)
+ 			count = c;
+ 	}
+ 
++
+ 	dsp_handle = dsp_open();
+ 
+ 	if (dsp_handle < 0) {
+@@ -141,12 +143,16 @@ main(int argc, char **argv)
+ 		return -1;
+ 	}
+ 
++	printf("DSP opened\n");
++
+ 	if (!dsp_attach(dsp_handle, 0, NULL, &proc)) {
+ 		pr_err("dsp attach failed");
+ 		ret = -1;
+ 		goto leave;
+ 	}
+ 
++	printf("DSP attached\n");
++
+ 	node = create_node();
+ 
+ 	if (!node) {
+@@ -155,6 +161,9 @@ main(int argc, char **argv)
+ 		goto leave;
+ 	}
+ 
++	printf("Node created\n");
++	printf("Running...\n");
++
+ 	run_task(node);
+ 
+ 	destroy_node(node);
